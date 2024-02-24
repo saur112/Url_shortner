@@ -1,0 +1,215 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title>Custom URL Shortener</title>
+
+	<link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" type="text/css" media="screen">
+	<link rel="stylesheet" href="{% static 'style.css' %}" type="text/css" media="screen">
+</head>
+<style>
+#btn{
+cursor: pointer;
+z-index: 1;
+    background-color:black;
+    color:white;
+    margin-top: -60px;
+	margin-right:40px;
+    height: auto;
+
+    padding: 11px 10px;
+
+}
+.dark{
+
+	background-color:black;
+	text-color:black;
+
+	}
+
+
+
+</style>
+<body class="pace-done is_index_lout">
+
+	<main id="content" role="main">
+		<button type="button"  class="btn_cutt rounded-6 "  role="button" id="btn"  >Dark Mode</button>
+		<section class="container-fluid mx-0 bg_cuttly_main_092021 " id="section1">
+			<div class="header__bg" id="header1" style="color:'white';" ></div>
+			<div class="mb-0">
+				<div class="container position-relative">
+					<div class="row">
+						<div class="dv_main col-md-6 cutt_main_b2">
+							<h2 class="h1 ">URL Shortener</h2>
+							<h3 class="h2 h2_index text-left text-white h" >All the features you need in one place. <br />
+								Shorten, manage and track your links the easy way.</h3>
+							<div class="butt_on mx-auto">
+								<a  href="#shorten" class="btn_m_l btn_m_l_1 " onclick="mode()">Shorten</a>
+								<a href="analytic/" class="btn_m_l btn_m_r" target="_new">Analytics</a>
+							</div>
+						</div>
+						<div class="col-md-6 mobile_bg text-right">
+							<img src="{% static 'Rebrandly.png' %}" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="bg_main " id="section2" style="padding-bottom: 5%;">
+			<div class="container cutt_main_inp">
+				<div class="row">
+					<div class="col-12 mt-4 py-2 mb-2">
+						<form method="post" id="form_input">
+							{% csrf_token %}
+							<div class="input-group">
+								<input type="url" class="cutt_url w-50 p-4 rounded-12"
+									placeholder="Paste long url and shorten it" name="longurl" required />
+
+								<input type="text" class="cutt_url w-25 p-4 rounded-12" placeholder="alias"
+									name="custom_name" style="margin-left: 5%;" />
+
+								<button type="submit"  class="btn_cutt rounded-6 shortenit_b" role="button">Shorten</button>
+							</div>
+						</form>
+					</div>
+				</div>
+		{% if error %}
+				<div class="row">
+					<div class="col-12 mt-4 py-2 mb-2" style="text-align: center; color: red;">
+						<p>The alias name is already taken</p>
+					</div>
+				</div>
+		{% endif %}
+			</div>
+        {% if submitted %}
+			<div id="results">
+				<div class="container">
+					<div class="row py-4">
+						<div class="col-12 result">
+							<div class="url_options rounded-6" id="0">
+								<p class="data_link">{{date}}</p>
+								<p class="url_link">
+									{{long_url}}
+
+
+								</p>
+								<p id="link" class="link_element">
+									<a href="{{short_url}}" class="short_url_l" target="_blank">{{short_url}}</a>
+								</p>
+								<button class="btn-cutt i_s" onclick="copyToClipboard()" data-toggle="tooltip"
+									data-html="true" data-placement="top" title="" data-original-title="Copy">
+									<img src="{% static 'copy-icon.png' %}" />
+								</button>
+								<a href="/analytics/cc-ranklist" class="btn-cutt click_stats">
+									<svg class="i_svg" viewBox="0 0 24 24">
+										<use xlink:href="#i_chart"></use>
+									</svg>
+									<span>
+										<b class="badge">{{clicks}}</b>clicks
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+			{% endif %}
+			<div class="container" id="alert-box" style="display: none">
+				<div class="row py-4">
+					<div class="col-9"></div>
+					<div class="col-3">
+						<div class="alert alert-success">
+							<strong>Copied to clipboard!</strong>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</section>
+
+		<footer class="footer-area " >
+			<div class="mini-footer" id="section3">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="copyright-text">
+								<p><a href="https://www.o1codingclub.in/">O(1) Coding Club</a></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</main>
+
+	<script type="text/javascript">
+		function copyToClipboard() {
+			const element = document.getElementById("link");
+			console.log(element.innerText);
+
+			const el = document.createElement('textarea');
+			el.value = element.innerText;
+			el.setAttribute('readonly', '');
+			el.style.position = 'absolute';
+			el.style.left = '-9999px';
+			document.body.appendChild(el);
+			const selected =
+			document.getSelection().rangeCount > 0
+			? document.getSelection().getRangeAt(0)
+			: false;
+			el.select();
+			document.execCommand('copy');
+			document.body.removeChild(el);
+
+			document.getElementById("alert-box").style.display = "block"
+			setTimeout(() => {
+				document.getElementById("alert-box").style.display = "none"
+			}, 1500);
+			;
+		}
+		var var1=0
+		const sec1=document.getElementById('section1')
+		const sec2=document.getElementById('section2')
+		const sec3=document.getElementById('section3')
+
+		const el= document.getElementById('btn')
+		el.addEventListener('click',function (){
+
+			if (var1==0){
+			var1=1
+
+			sec1.classList.toggle("dark")
+			sec2.classList.toggle("dark")
+			sec3.classList.toggle("dark")
+			el.innerHTML='Dark Mode';
+}
+			else if (var1==1){
+			el.innerText='Light Mode';
+
+			el.style.color='dark';
+			var1=0;
+			console.log("ff")
+			}
+
+
+
+
+
+
+
+
+		})
+
+
+
+</script>
+</body>
+
+</html>
