@@ -24,7 +24,7 @@ def task(request):
             context['date'] = obj.date
             context['clicks'] = obj.clicks
             context["submitted"] = True
-         
+
 
         except:
              context['error']=True
